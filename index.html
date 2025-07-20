@@ -1,16 +1,256 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/MINUmundos-Minimundos_web/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + Vue</title>
-    <p> lakjafa <p>
-    <script type="module" crossorigin src="/MINUmundos-Minimundos_web/assets/index-54541e5a.js"></script>
-    <link rel="stylesheet" href="/MINUmundos-Minimundos_web/assets/index-63cb2e5a.css">
-  </head>
-  <body>
-    <div id="app"></div>
-    
-  </body>
+  <div class="mini-mundos">
+    <!-- Top Icons Section -->
+    <section class="intro-highlights">
+      <div class="highlight">
+        <h3>Unsere Bücher</h3> 
+        <img :src="ajoloteicon" alt="Bücher Icon" class="icon"/>   
+        <p>Lernenfrokindergehert, liebevoll gestaltet zu zweespraŋsi basan.</p>
+      </div>
+      <div class="highlight">
+        <h3>Mit Herz & Musik gemacht</h3>
+        <img :src="ajoloteicon" alt="Bücher Icon" class="icon"/>   
+        <p>Geschichtenn, Vökabmin & Lieder in zwei sprache</p>
+      </div>
+      <div class="highlight">
+        <h3>Für deinen bilingualen Alltag</h3>
+        <img :src="ajoloteicon" alt="Bücher Icon" class="icon"/>   
+        <p>Fördert. Wortshätz &, Kulur und Neuerl Furgrspracŋ</p>
+      </div>
+    </section>
+
+    <p class="slogan">Spielerisch lernen. Zweisprachig leben.</p>
+
+    <!-- Books Section -->
+    <section class="books">
+      <h2>Unsere Bücher</h2>
+      <div class="book-list">
+        <div class="book-card" v-for="book in books" :key="book.title">
+          <img :src="book.img" :alt="book.title" />
+          <h4>{{ book.title }}</h4>
+          <p>{{ book.desc }}</p>
+          <a :href="book.link">{{ book.cta }}</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Materials Section -->
+    <section class="extras">
+      <div class="extras-content">
+        <div class="extras-text">
+          <h2>Materialien & Extras</h2>
+          <p>Ergänzen auf ...</p>
+          <p>Spielerisch lernen. Zweisprachig leben.</p>
+          <button class="btn-material">Zum Materialbereich</button>
+        </div>
+      <img :src="diefrau" alt="Frau" class="frau-image" />
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about">
+       <div class="about-content">
+         <img :src="ajoloteicon" alt="Lisa Icon" class="about-image" />
+         <div class="about-text">
+           <h2>Über Mini Mundus</h2>
+           <p>Hallo, ich bin Lisa.</p>
+         </div>
+       </div>
+    </section>
+  </div>
 </html>
+
+
+<script>
+
+import book1 from '../assets/books/book1.jpg'
+import book2 from '../assets/books/book2.jpg'
+import ajoloteicon from '../assets/icons/ajoloteicon.png'
+import diefrau from '../assets/images/Diefrau.png'
+
+
+export default {
+  name: "MiniMundos",
+  data() {
+    return {
+      books: [
+        {
+          title: "Mein erstes Deulsch - Spanisch Warterbüch",
+          desc: "Lerne œstworte Worter und im Zöuernsprachen.",
+          link: "#",
+          cta: "Jetzt entdecken",
+          img: book1,
+        },
+        {
+          title: "Farben & Formen",
+          desc: "Gejchichter Vokhdel & Lïeder œsstn",
+          link: "#",
+          cta: "Mehr erfahren",
+           img: book2,
+        },
+        {
+          title: "Zahlen & Buchstaben",
+          desc: "Jätztisæen. Ze-hen-lehren zi Sexxssprachen",
+          link: "#",
+          cta: "Jetzt ertrahen",
+           img: book1,
+        },
+        {
+          title: "Tiere - Animales",
+          desc: "Frömer mit-Leur-schiskren",
+          link: "#",
+          cta: "Jetzt ansehen",
+           img: book2,
+        },
+        {
+          title: "Taro, der kleine Axolotl",
+          desc: "Ermxängsein Rerun spreleon",
+          link: "#",
+          cta: "Jetzt anmehern",
+           img: book1,
+        }
+      ],
+      diefrau,
+      ajoloteicon
+    };
+  }
+};
+</script>
+
+<style scoped>
+.mini-mundos {
+  font-family: sans-serif;
+  padding: 2rem;
+  background-color: #fffefb;
+}
+
+.intro-highlights {
+  display: flex;
+  justify-content: space-around;
+  text-align: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.highlight img {
+  width: 40px;
+  height: 40px;
+  margin-bottom: 0.5rem;
+}
+
+.slogan {
+  text-align: center;
+  font-style: italic;
+  color: #ff6600;
+  margin-bottom: 2rem;
+}
+
+.books {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.book-list {
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.book-card {
+  width: 160px;
+  background: #FFE9ED;
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 2px 5px rgba(255, 175, 163, 0.15);
+}
+
+.book-card img {
+  width: 100%;
+  border-radius: 8px;
+}
+
+.book-card a {
+  display: block;
+  margin-top: 0.5rem;
+  color: #007b8f;
+  text-decoration: none;
+}
+
+.extras {
+  text-align: center;
+  padding: 2rem 1rem;
+  background-color: #FFE9ED;
+  border-radius: 20px;
+  margin: 2rem auto;
+}
+
+.btn-material {
+  background-color: #5ac0aa;
+  color: white;
+  border: none;
+  padding: 0.7rem 1.2rem;
+  border-radius: 8px;
+  margin-top: 1rem;
+  cursor: pointer;
+}
+
+.about {
+  margin-top: 3rem;
+  text-align: center;
+}
+
+.icon {
+  width: 40px;
+  height: 40px;
+  margin-bottom: 0.5rem;
+}
+
+.extras-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.extras-text {
+  flex: 1;
+  min-width: 250px;
+}
+
+.frau-image {
+  width: 200px;
+  height: auto;
+  object-fit: contain;
+}
+
+.mini-mundos {
+  font-family: sans-serif;
+  padding: 2rem;
+  background: linear-gradient(160deg, #FFE5B4, #FFD1DC);
+  background-repeat: no-repeat;
+  background-size: cover;
+  overflow-x: hidden; /* ✅ prevents side overflow */
+}
+.about-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap; /* Responsive for mobile */
+  text-align: left;
+}
+
+.about-image {
+  width: 120px;
+  height: auto;
+  object-fit: contain;
+}
+
+.about-text {
+  max-width: 400px;
+}
+</style>
