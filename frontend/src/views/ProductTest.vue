@@ -1,13 +1,14 @@
 <template>
   <div class="mini-mundos">
   <header class="site-header">
-    <img :src="MINImundoslogo" alt="Mini Mundos Logo" class="logo" />
+    <img :src="MINImundoslogo2" alt="Mini Mundos Logo" class="logo" />
     <nav class="nav-links">
       <button @click="toggleLanguage">
         {{ language === 'de' ? '🇩🇪 Deutsch' : '🇪🇸 Español' }}
       </button>
-      <a href="#books">Bücher</a>
-      <a href="#about">Über Mini Mundos</a>
+      <a href="#books">{{ texts.headerLinkBook[language] }}</a>
+      <a href="#about">{{ texts.headerLinkAbout[language] }}</a>
+      <a href="#why">{{ texts.headerLinksWhy[language] }}</a>
     </nav>
   </header>
     <!-- Top Icons Section -->
@@ -31,33 +32,49 @@
 
   <!-- Books Section -->
   <section id="books" class="books">
-    <h2>UNSERE BÜCHER</h2>
+    <h2>{{ texts.books[language] }}</h2>
+
     <div class="book-list">
       <div class="book-card" v-for="book in books" :key="book.title">
         <img :src="book.img" :alt="book.title" />
-        <h4>{{ book.title }}</h4>
-        <p>{{ book.desc }}</p>
-        <a :href="book.link">{{ book.cta }}</a>
+        <h4>{{ book.title[language] }}</h4>
+        <p>{{ book.desc[language] }}</p>
+        <a :href="book.link">{{ book.cta[language] }}</a>
       </div>
     </div>
   </section>
+
+    <!-- Why Section -->
+    <section id="why" class="about">
+       <div class="about-content">
+         <!-- img :src="ajoloteicon" alt="Lisa Icon" class="about-image" /> -->
+         <div class="about-text">
+                <div class="about-text">
+                  <component
+                    v-for="(block, i) in texts.whyParagraph[language]"
+                    :is="block.type"
+                    :key="i"
+                    v-html="block.content"
+                  />
+                </div>
+         </div>
+       </div>
+    </section>
+
 
     <!-- About Section -->
     <section id="about" class="about">
        <div class="about-content">
          <!-- img :src="ajoloteicon" alt="Lisa Icon" class="about-image" /> -->
          <div class="about-text">
-           <h2>Über Mini Mundus</h2>
-           <p>Sprachen öffnen Welten – und genau das möchten wir mit Mini Mundos ermöglichen.
- Mini Mundos ist ein Herzensprojekt für Kinder, die mit zwei Sprachen aufwachsen – und für alle, die Sprachen lieben.</p>
-           <p>Ob Wörterbuch, Bilderbuch oder Abenteuergeschichte: Unsere Inhalte fördern mit Spaß, Fantasie und Vielfalt das bilinguale Lernen.</p>
-           <p>Was als kleine Idee für meine eigenen Kinder begann, ist heute eine bunte Sammlung aus zweisprachigen Büchern, Geschichten und Mitmachbüchern für kleine Weltentdecker.</p>
-           <p>🌎 Unsere Bücher verbinden Sprache mit Fantasie, Bewegung und Kultur. </p>
-           <p>Sie sind kindgerecht illustriert, klar strukturiert – und immer mit einem Augenzwinkern für neugierige kleine Entdecker gemacht.</p>
-           <p>👩‍👧‍👦 Wer steckt dahinter?</p>
-           <p>Ich bin Lisa – Sprachliebhaberin, Mama und Autorin. In unserer deutsch-mexikanischen Familie sind zwei Sprachen Alltag. Und genau das möchten wir weitergeben: Die Freude am Sprachenlernen von Anfang an.</p>
-           <p>🧒 Mini Mundos Helden</p>
-           <p>Ob auf einem fliegenden Buch oder mit einem magischen Stein – jedes Mini Mundos Buch bringt eigene kleine Held*innen mit, die Kinder zum Mitträumen und Mitlernen einla</p>
+                <div class="about-text">
+                  <component
+                    v-for="(block, i) in texts.aboutParagraph[language]"
+                    :is="block.type"
+                    :key="i"
+                    v-html="block.content"
+                  />
+                </div>
          </div>
        </div>
     </section>
@@ -167,12 +184,15 @@ Diese Datenschutzerklärung wird regelmäßig aktualisiert.
 
 <script>
 
-import book1 from '../assets/books/book1.jpg'
-import book2 from '../assets/books/book2.jpg'
 import ajoloteicon from '../assets/icons/ajoloteicon.png'
 import diefrau from '../assets/images/Diefrau.png'
 import MINImundoslogo from  '../assets/icons/MINIMundos_favicon.png'
-
+import MINImundoslogo2 from  '../assets/icons/MINIMUNDOS_LOGO.png'
+import BuschtabenZahlen from  '../assets/images/BuschtabenZahlen.svg'
+import FarbenUndForm from  '../assets/images/FarbenUndForm.svg'
+import Taro from  '../assets/images/Taro.svg'
+import Tierbuch from  '../assets/images/Tierbuch.svg'
+import Wortenbuch from  '../assets/images/Wortenbuch.svg'
 
 export default {
   name: "MiniMundos",
@@ -180,54 +200,63 @@ export default {
     return {
       books: [
         {
-          title: "Mein erstes Deulsch - Spanisch Warterbüch",
-          desc: "Lerne œstworte Worter und im Zöuernsprachen.",
+          title:{  de: "Lerne œstworte Worter und im Zöuernsprachen.", es: "Mi primer diccionario en alemán y español"},
+          desc: {  de: "Lerne œstworte Worter und im Zöuernsprachen.", es: "LIBROS BILINGÜES PARA PEQUEÑOS EXPLORADORES DEL MUNDO"},
           link: "#",
-          cta: "Jetzt entdecken",
-          img: book1,
+          cta:{ de: "Jetzt entdecken", es: "DESCUBRE AHORA"},
+          img: Wortenbuch,
         },
         {
-          title: "Farben & Formen",
-          desc: "Gejchichter Vokhdel & Lïeder œsstn",
+          title:{  de: "Mein erstes Deutsch - Spanisch Farben - und Formenbuch", es: "Mi primer libro de colores y formas en alemán y español"},
+          desc: {  de: "Lerne œstworte Worter und im Zöuernsprachen.", es: "LIBROS BILINGÜES PARA PEQUEÑOS EXPLORADORES DEL MUNDO"},
           link: "#",
-          cta: "Mehr erfahren",
-           img: book2,
+          cta:{ de: "Jetzt entdecken", es: "DESCUBRE AHORA"},
+           img: FarbenUndForm,
         },
         {
-          title: "Zahlen & Buchstaben",
-          desc: "Jätztisæen. Ze-hen-lehren zi Sexxssprachen",
+          title: { de: "Mein erstes Deutsch - Spanisch Buchstaben-  und Zahlenbuch", es: "Mi primer libro de letras y números en alemán y español"},
+          desc:  { de: "Mein erstes Deutsch - Spanisch Buchstaben-  und Zahlenbuch", es: "Mi primer libro de letras y números en alemán y español"},
           link: "#",
-          cta: "Jetzt ertrahen",
-           img: book1,
+          cta:{ de: "Jetzt entdecken", es: "¡DESCUBRE AHORA!"},
+           img: BuschtabenZahlen,
         },
         {
-          title: "Tiere - Animales",
-          desc: "Frömer mit-Leur-schiskren",
+          title: { de: "Mein erstes Deutsch - Spanisch Tierbuch", es: "Mi primer libro de los animales en alemán y español"},
+          desc:  { de: "Mein erstes Deutsch - Spanisch Tierbuch", es: "Mi primer libro de los animales en alemán y español"},
           link: "#",
-          cta: "Jetzt ansehen",
-           img: book2,
+          cta:{ de: "Jetzt entdecken", es: "¡DESCUBRE AHORA!"},
+           img: Tierbuch,
         },
         {
-          title: "Taro, der kleine Axolotl",
-          desc: "Ermxängsein Rerun spreleon",
+          title: { de: "Taro - Hüter des blauen Steins", es: "Taro - guardián de la piedra azul"},
+          desc:  { de: "Taro - Hüter des blauen Steins", es: "Taro - guardián de la piedra azul"},
           link: "#",
-          cta: "Jetzt anmehern",
-           img: book1,
+          cta:{ de: "Jetzt entdecken", es: "¡DESCUBRE AHORA!"},
+           img: Taro,
         }
       ],
       diefrau,
       ajoloteicon,
       MINImundoslogo,
+      MINImundoslogo2,
       showFooter: false,
       showImpressum: false,
       dataProtection: false,
+
       heroImages: [  
-        diefrau,
-        ajoloteicon
+        BuschtabenZahlen,
+        FarbenUndForm,
+        Taro,
+        Tierbuch,
+        Wortenbuch
       ],
       currentHeroImageIndex: 0,
       language: 'de',
       texts: {
+        books: {
+          de: "UNSERE BÜCHER",
+          es: "NUESTROS LIBROS"
+        },
         heroHeadline: {
           de: "ZWEISPRACHIGE BÜCHER FÜR KLEINE WELTENTDECKER",
           es: "LIBROS BILINGÜES PARA PEQUEÑOS EXPLORADORES DEL MUNDO"
@@ -239,7 +268,101 @@ export default {
         cta: {
           de: "JETZT ENTDECKEN",
           es: "¡DESCUBRE AHORA!"
-        }
+        },
+        headerLinkBook: {
+          de: "Bücher",
+          es: "Libros"
+        },
+        headerLinkAbout: {
+          de: "Über Mini Mundos",
+          es: "Sobre Mini Mundos"
+        },
+        headerLinksWhy: {
+          de: "Warum zwei sprache",
+          es: "Por que Bilingual"
+        },
+        aboutParagraph: {
+          de: [
+                { type: "h2", content: "💛 Über MINI MUNDOS"},
+                { type: "p", content: "Sprachen öffnen Welten – und genau das möchten wir mit MINI MUNDOS ermöglichen."},
+                { type: "p", content: "MINI MUNDOS ist ein Herzensprojekt für Kinder, die mit zwei Sprachen aufwachsen – und für alle, die Sprachen lieben."},
+                { type: "p", content: "Ob Wörterbuch, Bilderbuch oder Abenteuergeschichte: Unsere Inhalte fördern mit Spaß, Fantasie und Vielfalt das bilinguale Lernen."},
+                { type: "p", content: "Was als kleine Idee für meine eigenen Kinder begann, ist heute eine bunte Sammlung aus zweisprachigen Büchern, Geschichten und Mitmachbüchern für kleine Weltentdecker."},
+                { type: "p", content: "🌎 Unsere Bücher verbinden Sprache mit Fantasie, spielerischen Aktivitäten und kulturellen Elementen."},
+                { type: "p", content: "Sie sind kindgerecht illustriert, klar strukturiert – und immer mit einem Augenzwinkern für neugierige kleine Entdecker gemacht."},
+                { type: "h1", content: "👩‍👧‍👦 Wer steckt dahinter?"},
+                { type: "p", content: "Ich bin Lisa – Sprachliebhaberin, Mama und Autorin. In unserer deutsch-mexikanischen Familie sind zwei Sprachen Alltag. Und genau das möchten wir weitergeben: Die Freude am Sprachenlernen von Anfang an."},
+                { type: "h1", content: "🧒 MINI MUNDOS Helden"},
+                { type: "p", content: "Ob auf einem fliegenden Buch oder mit einem magischen Stein – jedes MINI MUNDOS Buch bringt eigene kleine Held*innen mit, die Kinder zum Mitträumen und Mitlernen einladen."}
+              ],
+          es: [
+                { type: "h1", content: "💛 Sobre MINI MUNDOS"},
+                { type: "p", content: "Los idiomas abren mundos – y eso es exactamente lo que queremos lograr con MINI MUNDOS."},
+                { type: "p", content: "MINI MUNDOS es un proyecto hecho con el corazón para niños que crecen con dos idiomas – y para todos los que aman las lenguas."},
+                { type: "p", content: "Ya sea un diccionario ilustrado, un cuento o una historia de aventuras: nuestros contenidos fomentan el aprendizaje bilingüe con diversión, imaginación y mucha variedad."},
+                { type: "p", content: "Lo que comenzó como una pequeña idea para mis propios hijos, hoy es una colorida colección de libros bilingües, cuentos e historias interactivas para pequeños exploradores del lenguaje."},
+                { type: "p", content: "🌎 Nuestros libros unen el idioma con la fantasía, actividades divertidas y elementos culturales. Están ilustrados con ternura, estructurados de forma clara – y siempre pensados para despertar la curiosidad de los pequeños."},
+                { type: "h1", content: "👩‍👧‍👦 ¿Quién está detrás?"},
+                { type: "p", content: "Soy Lisa – amante de los idiomas, mamá y autora. En nuestra familia alemana-mexicana convivimos con dos lenguas cada día. Y eso es lo que queremos compartir: la alegría de aprender idiomas desde el principio."},
+                { type: "h1", content: "🧒 Héroes MINI MUNDOS"},
+                { type: "p", content: "Ya sea viajando en un libro volador o con la ayuda de una piedra mágica – cada libro MINI MUNDOS trae consigo pequeños héroes que invitan a soñar, descubrir y aprender juntos."}
+              ]
+        },
+        whyParagraph: {
+          de: [
+                { type: "h2", content: "🌍 Warum Mehrsprachigkeit?"},
+                { type: "h1", content: "Warum mehrsprachig aufwachsen ein Geschenk ist"},
+                { type: "p", content: "Sprache ist mehr als Worte – sie ist ein Schlüssel zur Welt."},
+                { type: "p", content: "Immer mehr Kinder wachsen heute mit mehr als einer Sprache auf. Ob durch Familie, Freundeskreis oder Alltag – Mehrsprachigkeit wird zur wertvollen Ressource."},
+                { type: "p", content: "Sie lernen, die Welt aus verschiedenen Perspektiven zu sehen, flexibel zu denken – und sich mit Menschen aus unterschiedlichen Kulturen zu verbinden."},
+                { type: "p", content: "Doch damit Sprachen lebendig bleiben, brauchen Kinder Bücher, Geschichten und Impulse, die ihre Welt widerspiegeln."},
+                { type: "h1", content: "Genau hier setzt MINI MUNDOS an."},
+                { type: "p", content: "Unsere Bücher verbinden Deutsch und Spanisch auf spielerische Weise – mit liebevollen Illustrationen, einfachen Begriffen und kindgerechten Szenen. So erleben Kinder beides gleichzeitig: Vertrautes und Neues. Ihre Familiensprache – und die Sprache ihrer Umgebung."},
+                { type: "h1", content: "💬 Warum zweisprachige Bücher?"},
+                { type: "h1", content: "📖 Sprachförderung im Alltag"},
+                { type: "p", content: " Bilinguale Bücher helfen Kindern, Vokabeln in beiden Sprachen zu entdecken – ohne Druck, sondern im Spiel."},
+                { type: "h1", content: "👶 Identität stärken"},
+                { type: "p", content: " Wenn Kinder ihre Sprache in Büchern wiederfinden, fühlen sie sich gesehen und verstanden."},
+                { type: "h1", content: "🌈 Kulturelle Brücken bauen"},
+                { type: "p", content: "Mini Mundos vereint Elemente aus unterschiedlichen Kulturen – und schafft so einen Raum, in dem Vielfalt selbstverständlich ist."},
+                { type: "h1", content: "🤝 Eltern aktiv einbinden"},
+                { type: "p", content: " Ob Mama auf Deutsch und Papa auf Spanisch vorliest – oder umgekehrt: Unsere Bücher machen gemeinsame Sprachzeit natürlich und schön."},
+                { type: "h1", content: "🧒 Für wen ist MINI MUNDOS gedacht?"},
+                { type: "p", content: "Für alle Familien, die…"},
+                { type: "p", content: "…mit zwei oder mehr Sprachen leben"},
+                { type: "p", content: "mit Freude und Fantasie fördern wollen"},
+                { type: "p", content: "Bücher suchen, die nicht nur übersetzen – sondern verbinden"},
+                { type: "p", content: " … und für alle, die neugierig auf Sprache und Kultur sind."},
+                { type: "p", content: "✨ Mehrsprachigkeit ist kein Hindernis, sondern ein Schatz. Und jedes Kind verdient es, diesen Schatz zu entdecken."}
+              ],
+          es: [
+                { type: "h1", content: "¿Bilingüismo, por qué?"},
+                { type: "h1", content: "🌍 Por qué crecer con varios idiomas es un regalo"},
+                { type: "p", content: "El lenguaje es más que palabras – es una llave que abre el mundo."},
+                { type: "p", content: "Cada vez más niños crecen con más de un idioma. Ya sea por la familia, los amigos o el entorno – el bilingüismo se convierte en un recurso valioso."},
+                { type: "p", content: "Aprenden a ver el mundo desde distintas perspectivas, a pensar con flexibilidad y a conectar con personas de diferentes culturas."},
+                { type: "p", content: "Pero para que los idiomas estén vivos, los niños necesitan libros, historias e impulsos que reflejen su mundo."},
+                { type: "p", content: "Ahí es donde entra MINI MUNDOS."},
+                { type: "p", content: "Nuestros libros combinan el alemán y el español de forma lúdica – con ilustraciones amorosas, palabras sencillas y escenas cotidianas para niños."},
+                { type: "p", content: "Así los pequeños experimentan lo familiar y lo nuevo al mismo tiempo: su idioma familiar y el idioma del entorno"},
+                { type: "h1", content: "💬 ¿Por qué libros bilingües?"},
+                { type: "p", content: "📖 Fomento del lenguaje en el día a día"},
+                { type: "p", content: "Los libros bilingües ayudan a ampliar el vocabulario de forma natural y divertida."},
+                { type: "h1", content: "👶 Fortalecer la identidad"},
+                { type: "p", content: "Cuando los niños ven su idioma reflejado en los libros, se sienten reconocidos y comprendidos."},
+                { type: "h1", content: "🌈 Tender puentes culturales"},
+                { type: "p", content: "MINI MUNDOS une elementos de distintas culturas y crea un espacio donde la diversidad es parte del día a día."},
+                { type: "h1", content: "🤝 Involucrar a los padres"},
+                { type: "p", content: " Ya sea que mamá lea en alemán y papá en español – o al revés: nuestros libros hacen que el tiempo de lectura bilingüe sea especial y accesible."},
+                { type: "h1", content: "🧒 ¿Para quién es Mini Mundos?"},
+                { type: "p", content: "Para todas las familias que…"},
+                { type: "p", content: "viven con dos o más idiomas"},
+                { type: "p", content: "quieren fomentar el aprendizaje con alegría y fantasía"},
+                { type: "p", content: "buscan libros que no solo traduzcan, sino que conecten"},
+                { type: "p", content: "… y para todos los que tienen curiosidad por los idiomas y las culturas."},
+                { type: "p", content: "✨ El bilingüismo no es una barrera, sino un tesoro. Y cada niño merece descubrirlo."}
+              ]
+        },
         // add more as needed...
       }
 
@@ -247,14 +370,12 @@ export default {
   },
   mounted() {
     window.addEventListener('keydown', this.handleEsc);
-const storedLang = localStorage.getItem('lang');
-  if (storedLang) this.language = storedLang;
-
-   this.heroInterval = setInterval(() => {
+    const storedLang = localStorage.getItem('lang');
+    if (storedLang) this.language = storedLang;
+    this.heroInterval = setInterval(() => {
        this.currentHeroImageIndex =
          (this.currentHeroImageIndex + 1) % this.heroImages.length;
-     }, 4000); // ⏱️ Change image every 4 seconds
-    
+    }, 4000);
   },
   beforeUnmount() {
     window.removeEventListener('keydown', this.handleEsc);
@@ -277,8 +398,6 @@ const storedLang = localStorage.getItem('lang');
       return this.heroImages[this.currentHeroImageIndex];
     }
   }
-
-
 
 
 };
@@ -414,6 +533,17 @@ const storedLang = localStorage.getItem('lang');
 .about-text {
   max-width: 900px;
 }
+.about-text h2 {
+  font-size: 1.8rem;
+  margin-top: 2rem;
+}
+.about-text h3 {
+  font-size: 1.4rem;
+  margin-top: 1.5rem;
+}
+.about-text p {
+  margin-bottom: 1rem;
+}
 .site-header {
   display: flex;
   justify-content: space-between;
@@ -491,14 +621,16 @@ section {
 .footer-hover-area {
   position: fixed;
   bottom: 0;
+  left: 0;
   width: 100%;
   height: 30px;
   z-index: 99;
-  background: rgba(255, 204, 0, 0.3); /* TEMPORARY yellowish */
+  background: #ffd400; 
   text-align: center;
   cursor: pointer;
   font-size: 0.8rem;
   line-height: 30px;
+  box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
 }
 
 .mega-footer {
@@ -506,7 +638,8 @@ section {
   bottom: 0px;              /* appears just above the trigger bar */
   left: 0;
   width: 100%;
-  background-color: #e8e8e8;
+  background-color: #FFE9ED;
+  color: #333;
   padding: 2rem;
   font-size: 0.9rem;
   color: #333;
