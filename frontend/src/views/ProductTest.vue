@@ -2,14 +2,25 @@
   <div class="mini-mundos">
   <header class="site-header">
     <img :src="MINImundoslogo2" alt="Mini Mundos Logo" class="logo" />
-    <nav class="nav-links">
-      <button @click="toggleLanguage">
-        {{ language === 'de' ? '🇩🇪 Deutsch' : '🇪🇸 Español' }}
-      </button>
-      <a href="#books">{{ texts.headerLinkBook[language] }}</a>
-      <a href="#about">{{ texts.headerLinkAbout[language] }}</a>
-      <a href="#why">{{ texts.headerLinksWhy[language] }}</a>
-    </nav>
+  <!-- Hamburger Button -->
+  <button class="hamburger" @click="menuOpen = !menuOpen" :aria-label="menuOpen ? 'Close menu' : 'Open menu'">
+    <span class="line" :class="{ open: menuOpen }"></span>
+    <span class="line" :class="{ open: menuOpen }"></span>
+    <span class="line" :class="{ open: menuOpen }"></span>
+  </button>
+
+  <!-- Navigation -->
+  <nav :class="['nav-links', { open: menuOpen }]">
+    <button @click="handleLanguageToggle">
+      {{ language === 'de' ? '🇩🇪 Deutsch' : '🇪🇸 Español' }}
+    </button>
+    <a href="#books" @click="menuOpen = false">{{ texts.headerLinkBook[language] }}</a>
+    <a href="#about" @click="menuOpen = false">{{ texts.headerLinkAbout[language] }}</a>
+    <a href="#why" @click="menuOpen = false">{{ texts.headerLinksWhy[language] }}</a>
+  </nav>
+
+  <!-- Dark backdrop -->
+  <div class="menu-overlay" v-if="menuOpen" @click="menuOpen = false"></div>
   </header>
     <!-- Top Icons Section -->
   <section class="hero">
@@ -242,7 +253,7 @@ export default {
       showFooter: false,
       showImpressum: false,
       dataProtection: false,
-
+      menuOpen: false,
       heroImages: [  
         BuschtabenZahlen,
         FarbenUndForm,
@@ -382,14 +393,19 @@ export default {
     clearInterval(this.heroInterval);
   },
   methods: {
-    toggleLanguage() {
-        this.language = this.language === 'de' ? 'es' : 'de';
-        localStorage.setItem('lang', this.language);
-    },
+toggleLanguage() {
+    this.language = this.language === 'de' ? 'es' : 'de';
+    localStorage.setItem('lang', this.language);
+  },
+  handleLanguageToggle() {
+    this.toggleLanguage();
+    //this.$nextTick(() => {this.menuOpen = false;});
+  },
     handleEsc(e) {
       if (e.key === 'Escape') {
         this.showImpressum = false;
         this.dataProtection = false;
+        this.menuOpen = false;
       }
     }
   },
@@ -749,27 +765,117 @@ section {
 .fade-enter-from, .fade-leave-to {
   opacity: 0;
 }
+
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 30px;
+  height: 22px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 100;
+  padding: 0;
+}
+
+.hamburger .line {
+  display: block;
+  width: 100%;
+  height: 3px;
+  background-color: #007b8f; /* Or any visible color */
+  border-radius: 2px;
+  transition: all 0.3s ease-in-out;
+}
+
+.hamburger span {
+  display: block;
+  height: 3px;
+  background: #007b8f;
+  border-radius: 3px;
+ transition: all 0.3s ease;
+}
+/* Cross (X) animation */
+.hamburger .line.open:nth-child(1) {
+  transform: translateY(9px) rotate(45deg);
+}
+.hamburger .line.open:nth-child(2) {
+  opacity: 0;
+}
+.hamburger .line.open:nth-child(3) {
+  transform: translateY(-9px) rotate(-45deg);
+}
+
+/* Animation for the open state */
+.hamburger span.open:nth-child(1) {
+  transform: translateY(9px) rotate(45deg);
+}
+.hamburger span.open:nth-child(2) {
+  opacity: 0;
+}
+.hamburger span.open:nth-child(3) {
+  transform: translateY(-9px) rotate(-45deg);
+}
+
+/* Navigation menu */
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 50;
+}
 @media (max-width: 768px) {
   .site-header {
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 1rem;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 1rem;
+  position: sticky;       /* ✅ stays on top */
+  top: 0;
+  z-index: 100;
+
+  }
+
+ .hamburger {
+    display: flex;
+    position: fixed;
+    top: 1.5rem;
+    right: 1.5rem;
+    z-index: 101; /* higher than nav and overlay */
   }
 
   .nav-links {
-    display: flex;
-    flex-direction: column;
+    position: fixed;
+    top: 100px;
+    left: 0;
     width: 100%;
-    margin-top: 1rem;
-    gap: 0.5rem;
+    flex-direction: column;
+    background: #fff;
+    padding: 1rem;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    display: none;
+    z-index: 99;
+  }
+
+  .nav-links.open {
+    display: flex;
   }
 
   .nav-links a,
   .nav-links button {
-    font-size: 1rem;
-    padding: 0.5rem 1rem;
     width: 100%;
     text-align: left;
+    padding: 0.5rem;
+    font-size: 1.1rem;
   }
 
   .logo {
