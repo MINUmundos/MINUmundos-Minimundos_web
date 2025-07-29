@@ -7,6 +7,7 @@
     <span class="line" :class="{ open: menuOpen }"></span>
     <span class="line" :class="{ open: menuOpen }"></span>
     <span class="line" :class="{ open: menuOpen }"></span>
+
   </button>
 
   <!-- Navigation -->
@@ -17,6 +18,8 @@
     <a href="#books" @click="menuOpen = false">{{ texts.headerLinkBook[language] }}</a>
     <a href="#about" @click="menuOpen = false">{{ texts.headerLinkAbout[language] }}</a>
     <a href="#why" @click="menuOpen = false">{{ texts.headerLinksWhy[language] }}</a>
+<router-link :to="'/books/taro'">Taro</router-link>
+<router-link :to="'/books/woerterbuch'">Wörterbuch</router-link>
   </nav>
 
   <!-- Dark backdrop -->
